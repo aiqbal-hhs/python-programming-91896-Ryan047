@@ -1,15 +1,21 @@
-#Importing other files to use functions
-#import Ordering
-#Ordering.pizza()
 #Pizza Ordering System
+#Imports
 
-#Empty List that will be filled with their Order
+# I imported time so I can delay print statrements to clearly separate some print statments easier.
+import time
+#Empty List that will be filled with their Pizza
 order_list = []
-#Empty List that will be filled with their Prices
+#Empty ;ist that will be filled with their drinks
+drink_list = []
+#Empty List that will be filled with their Price
 price_list = []
 #Empty List that will be filled with their Toppings
 topping_list = []
-#Pizzas Available
+#To check if they have picked delivery or pickup
+delivery_list = []
+#Stores Customers Address for later use (meant to spelt wrong)
+adderess = []
+#Pizzas Available (Pizza Menu)
 pizzas ={
 1:["No. 01. Cheese", 8.50],
 2:["No. 02. Cheese XL", 8.50],
@@ -24,7 +30,7 @@ pizzas ={
 11:["No. 11. MeatLovers", 13.50],
 12:["No. 12. Margherita", 13.50],
 }
-#Drinks Available
+#Drinks Available (Drink Menu)
 drinks ={
 1:["1. Coke", 10.00],
 2:["2. Sprite", 10.00],
@@ -36,7 +42,7 @@ drinks ={
 8:["8. 7 up", 10.00],
 9:["9. Water", 10.00],
 }
-#Toppings Available
+#Toppings Available (Toppings Menu)
 toppings ={
 1:["1. Pepperoni", 0,50],
 2:["2. Sausage", 0.50],
@@ -48,6 +54,12 @@ toppings ={
 #Menu
 def main_menu():
     while True:
+#Boundary Values for number of Pizzas (So it is not less than 0 or more than 5)
+        if len(order_list) >= 5 or len(order_list) < 0:
+            limit()
+            break
+
+#Name and Main Menu of the Program shows Functions of ordering or exiting.
         print("="*28 + " Stephanie's Pizzeria " + "="*24) 
         print("=" * 32 + " Main Menu " + "=" * 32 + "\n"     
               "\t(O) Order\n"                              
@@ -71,6 +83,12 @@ def main_menu():
 #Order
 def order():
     while True:
+#Boundary Values for number of Pizzas (So it is not less than 0 or more than 5)
+        if len(order_list) >= 5 or len(order_list) < 0:
+            limit()
+            break
+
+#Options for ordering a Pizza a Drink or exiting>
         print("="*28 +" Menu " + "="*28)
         print("\t(P) Pizza\n" +
               "\t(D) Drinks\n" +
@@ -102,11 +120,28 @@ def order():
 #Select Pizza from menu
 def pizza():
     while True: 
+#Boundary Values for number of Pizzas (So it is not less than 0 or more than 5)
+        if len(order_list) >= 5 or len(order_list) < 0:
+            limit()
+            break
+
+#(Pizza Menu already Printed) Stores your pizza choice.
         print("_" * 72)
         pizza_type = int(input("Select Your Pizza No. "))
         if (pizza_type <=12):
-            order_list.append(pizzas[pizza_type][0])
-            price_list.append(pizzas[pizza_type][1])
+            print("\n" + "_" * 72  )
+            no_ = input("How many {} Pizzas would you like? ".format(pizzas[pizza_type][0]))
+            no_ = int(no_)
+            if no_ > 5 or no_ < 1:
+                print("You can unfortunately only order between 1 and 5 pizzas at a time.")
+                print("")
+                for entry in list(pizzas):
+                    print(str(pizzas[entry][0]) + " $" + str(pizzas[entry][1]))
+                pizza()
+                break
+            for no_ in range(no_): 
+                order_list.append(pizzas[pizza_type][0])
+                price_list.append(pizzas[pizza_type][1]) 
             print(order_list)
             print("\n" * 2)
             topping()
@@ -116,13 +151,30 @@ def pizza():
 
 #Select drinks from menu
 def drink():
-    while True: 
+    while True:
+#Boundary Values for number of Pizzas (So it is not less than 0 or more than 5)
+        if len(drink_list) >= 5 or len(order_list) < 0:
+            limit()
+            break
+
+#(Srink Menu already Printed) Stores your drink choice.
         print("_" * 72)
         drink_type = int(input("Select Your Drink No. "))
         if (drink_type <=9):
-            order_list.append(drinks[drink_type][0])
-            price_list.append(drinks[drink_type][1])
-            print(order_list)
+            print("\n" + "_" * 72  )
+            no_ = input("How many {} drinks would you like? ".format(drinks[drink_type][0]))
+            no_ = int(no_)
+            if no_ > 5 or no_ < 1:
+                print("You can unfortunately only order between 1 and 5 drinks at a time.")
+                print("")
+                for entry in list (drinks):
+                    print(str(drinks[entry][0]) + " $" + str(drinks[entry][1]))
+                drink()
+                break
+            for no_ in range(no_): 
+                drink_list.append(drinks[drink_type][0])
+                drink_list.append(drinks[drink_type][1]) 
+            print(drink_list)
             print("\n" * 2)
             finishing()
             break  
@@ -161,13 +213,13 @@ def topping():
 def finishing():
     while True:
         print("_" * 72)
-        continue_ordering = str(input("Would you like to continue ordering? (Y/N): ")).upper()
+        continue_ordering = str(input("Is that all today? (Y/N): ")).upper()
         if (len(continue_ordering) == 1):      
-            if (continue_ordering == 'Y'):
+            if (continue_ordering == 'N'):
                 print("\n" * 2)
                 order()
                 break
-            elif (continue_ordering == 'N'):
+            elif (continue_ordering == 'Y'):
                 print(order_list)
                 print("\n" * 2)
                 print("_" * 72)
@@ -213,17 +265,19 @@ def delivery():
                 payment()                                       
                 break                                                                                                                                                 
             elif (delivery_option == 'D'):                                        
-                print("I will have to take down some details for delivery?")
+                print("I will have to take down some details for delivery.")
                 name = str(input("Name: ")).title()       
                 address = str(input("Address: ")).title()
                 phone_no = str(input("Phone Number: "))
                 print("_" * 72)
+                time.sleep(1.5)
                 print("Are these details correct?")
                 print(
                 "Name: {} \n".format(name) + 
                 "Address: {} \n".format(address) + 
                 "Phone Number: {}".format(phone_no) 
                 )
+                adderess.append(address)
                 print("_" * 72)
                 print(
                     "\n" +
@@ -233,14 +287,13 @@ def delivery():
                 delivery_details = str(input("Please Select an Operation: ")).upper()    
                 if (len(delivery_details) == 1):                                           
                     if (delivery_details == 'Y'):       
-                        price_list.append(3)                                   
+                        price_list.append(3)
+                        delivery_list.append("x")                                   
                         print("\n" * 2)                                        
                         payment()                                       
                         break                                                                                                                                                 
                     elif (delivery_details == 'N'): 
-                        print(
-                            "\n" + 
-                            "_" * 72)                                       
+                        print("_" * 72)                                       
                         delivery()    
                         break                                               
                     else:                                                                                 
@@ -251,12 +304,25 @@ def delivery():
                 print("\n" * 4 + "ERROR: Invalid Input (" + str(delivery_option) + "). Try again!")     
         else:                                                                                     
             print("\n" * 4 + "ERROR: Invalid Input (" + str(delivery_option) + "). Try again!")     
-
-
+#Payment
 def payment():
-    price_one = int(price_list)
-    price_one = sum(price_one)
-    price = str(price_one)
-    print("$" + (price))
+    price = sum(price_list)
+    price = str(price)
+    print("You order comes to a total of ${}.".format(price))
+    time.sleep(0.4)
+    if (len(delivery_list) == 1):
+        print("That will be delivered to {} in 45mins".format(adderess))
+    time.sleep(0.4)
+    if (len(delivery_list) == 0):
+        print("You order will be ready to pick up in 30mins")
+    print("Have a lovely day.")
 
-main_menu() 
+
+#Pizza Limit
+def limit():
+    while True:
+        print("Help!")
+        break
+
+
+main_menu()
