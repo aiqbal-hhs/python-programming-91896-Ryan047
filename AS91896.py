@@ -1,11 +1,10 @@
 #Pizza Ordering System
 #Imports
-
-# I imported time so I can delay print statrements to clearly separate some print statments easier.
+# I Imported time so I can delay print statrements to clearly separate some print statments easier.
 import time
 #Empty List that will be filled with their Pizza
 order_list = []
-#Empty ;ist that will be filled with their drinks
+#Empty List that will be filled with their drinks
 drink_list = []
 #Empty List that will be filled with their Price
 price_list = []
@@ -17,6 +16,7 @@ delivery_list = []
 adderess = []
 #Pizzas Available (Pizza Menu)
 pizzas ={
+#Dictionary: Pizza Name, Price
 1:["No. 01. Cheese", 8.50],
 2:["No. 02. Cheese XL", 8.50],
 3:["No. 03. Cheese & Garlic", 8.50],
@@ -32,6 +32,7 @@ pizzas ={
 }
 #Drinks Available (Drink Menu)
 drinks ={
+#Dictionary: Drink Name, Price
 1:["1. Coke", 10.00],
 2:["2. Sprite", 10.00],
 3:["3. Pepsi", 10.00],
@@ -44,6 +45,7 @@ drinks ={
 }
 #Toppings Available (Toppings Menu)
 toppings ={
+#Dictionary: Topping Name, Price
 1:["1. Pepperoni", 0,50],
 2:["2. Sausage", 0.50],
 3:["3. Mushroom", 0.50],
@@ -99,12 +101,14 @@ def order():
         if (len(order) == 1):                                           
             if (order == 'P'):                                          
                 print("")
+#Prints the Menu in a Way that I can Constantly change it.
                 for entry in list(pizzas):
                     print(str(pizzas[entry][0]) + " $" + str(pizzas[entry][1]))
                 pizza()                                       
                 break                                                                                                                                                 
             elif (order == 'D'):                                        
                 print("")
+#Prints the Menu in a Way that I can Constantly change it.
                 for entry in list (drinks):
                     print(str(drinks[entry][0]) + " $" + str(drinks[entry][1]))
                 drink()
@@ -130,9 +134,17 @@ def pizza():
         pizza_type = int(input("Select Your Pizza No. "))
         if (pizza_type <=12):
             print("\n" + "_" * 72  )
-            no_ = input("How many {} Pizzas would you like? ".format(pizzas[pizza_type][0]))
-            no_ = int(no_)
+#Value Error 
+#Only Accepts Integers So My Code Does Not Break
+            while True:
+                try:
+                    no_ = int(input("How many {} Pizzas would you like? ".format(pizzas[pizza_type][0])))
+                    break
+                except ValueError:
+                    print("Error: Incorrect Input, please enter a number.\n")
+
             if no_ > 5 or no_ < 1:
+#Makes Sure they can not order more than 5 Pizzas
                 print("You can unfortunately only order between 1 and 5 pizzas at a time.")
                 print("")
                 for entry in list(pizzas):
@@ -152,18 +164,20 @@ def pizza():
 #Select drinks from menu
 def drink():
     while True:
-#Boundary Values for number of Pizzas (So it is not less than 0 or more than 5)
-        if len(drink_list) >= 5 or len(order_list) < 0:
-            limit()
-            break
-
-#(Srink Menu already Printed) Stores your drink choice.
+#(drink Menu already Printed) Stores your drink choice.
         print("_" * 72)
         drink_type = int(input("Select Your Drink No. "))
         if (drink_type <=9):
             print("\n" + "_" * 72  )
-            no_ = input("How many {} drinks would you like? ".format(drinks[drink_type][0]))
-            no_ = int(no_)
+#Value Error 
+#Only Accepts Integers So My Code Does Not Break
+            while True:
+                try:
+                    no_ = int(input("How many {} drinks would you like? ".format(drinks[drink_type][0])))
+                    break
+                except ValueError:
+                    print("Error: Incorrect Input, please enter a number.\n")
+#Make Sure Not To Order More Than 5 Pizza
             if no_ > 5 or no_ < 1:
                 print("You can unfortunately only order between 1 and 5 drinks at a time.")
                 print("")
@@ -171,9 +185,10 @@ def drink():
                     print(str(drinks[entry][0]) + " $" + str(drinks[entry][1]))
                 drink()
                 break
+#Adding the Ordered Drink and Price to a List that I will later Call on.
             for no_ in range(no_): 
                 drink_list.append(drinks[drink_type][0])
-                drink_list.append(drinks[drink_type][1]) 
+                price_list.append(drinks[drink_type][1]) 
             print(drink_list)
             print("\n" * 2)
             finishing()
@@ -198,15 +213,16 @@ def topping():
                     price_list.append(toppings[topping_type][1])
                     print(topping_list)  
                     print("\n" * 2)
-                else:                                                                  
+
+                else: #<----- Making my Code Robust                                                              
                     print("\n" * 2 + "ERROR: Invalid Input (" + str(topping_type) + "). Try again!")
             elif (extra_toppings == 'N'):
                 print("\n" * 2)
                 finishing()
                 break
-            else:                                                                                     
+            else: #<----- Making my Code Robust                                                                                    
                 print("\n" * 2 + "ERROR: Invalid Input (" + str(extra_toppings) + "). Try again!")
-        else:                                                                                     
+        else:  #<----- Making my Code Robust                                                                               
                 print("\n" * 2 + "ERROR: Invalid Input (" + str(extra_toppings) + "). Try again!")      
 
 #Checking
@@ -221,6 +237,7 @@ def finishing():
                 break
             elif (continue_ordering == 'Y'):
                 print(order_list)
+                print(drink_list)
                 print("\n" * 2)
                 print("_" * 72)
                 check_order = str(input("Is this what you would like to order? (Y/N):")).upper()
@@ -230,6 +247,8 @@ def finishing():
                         delivery()
                         break
                     elif (check_order == 'N'):
+                        print("\n" * 2)
+                        print("_" * 72)
                         restart = str(input("You Have Made A Mistake Then. Would you like to restart? (Y/N:)")).upper()
                         if (len(restart) == 1):      
                             if (restart == 'Y'):
@@ -237,17 +256,17 @@ def finishing():
                                 break
                             if (restart == 'N'):
                                 break
-                            else:
+                            else:#<----- Making my Code Robust
                                 print("\n" * 2 + "ERROR: Invalid Input (" + str(check_order) + "). Try again!")
-                        else:                                                                                     
+                        else: #<----- Making my Code Robust                                                                                    
                             print("\n" * 2 + "ERROR: Invalid Input (" + str(check_order) + "). Try again!")
-                    else:                                                                                     
+                    else:#<----- Making my Code Robust                                                                                     
                         print("\n" * 2 + "ERROR: Invalid Input (" + str(check_order) + "). Try again!")
-                else:                                                                                     
+                else:#<----- Making my Code Robust                                                                                     
                         print("\n" * 2 + "ERROR: Invalid Input (" + str(check_order) + "). Try again!")      
-            else:                                                                                     
+            else:#<----- Making my Code Robust                                                                                     
                 print("\n" * 2 + "ERROR: Invalid Input (" + str(continue_ordering) + "). Try again!")
-        else:                                                                                     
+        else:#<----- Making my Code Robust                                                                                     
                 print("\n" * 2 + "ERROR: Invalid Input (" + str(continue_ordering) + "). Try again!")      
 
 #Delivery
@@ -304,10 +323,101 @@ def delivery():
                 print("\n" * 4 + "ERROR: Invalid Input (" + str(delivery_option) + "). Try again!")     
         else:                                                                                     
             print("\n" * 4 + "ERROR: Invalid Input (" + str(delivery_option) + "). Try again!")     
+
+#Pizza Limit
+def limit():
+#To Keep People In Check When They Want To Order More Than 5 Pizza.
+    while True:
+        if len(order_list) >= 5:
+            print("Unfortunately You Have Too Many Pizzas, FATTY!!. \n" + "Maximum No is 5 Pizzas and You Cannot Order Anymore Pizzas. \n")
+        elif len(order_list) < 1:
+            print("=" * 32 + " You Must Order a Pizza " + "=" * 32 + "\n"     
+                  "\t(O) Ok\n"                              
+                  "\t(N) No\n" +
+                  "_" * 72)
+#Remove Or Proceed With An Order
+        order_change = str(input("Please Select Your Operation: ")).upper()    
+        if (len(order_change) == 1):                                           
+            if (order_change == 'O'):                                          
+                print("=" * 32 + " What would you like to do to you Order? " + "=" * 32 + "\n"     
+                    "\t(R) Remove\n"                              
+                    "\t(P) Proceed\n" +
+                    "_" * 72)                                  
+                piiza_removal = str(input("Please Select Your Operation: ")).upper()
+                if (len(piiza_removal) == 1):                                           
+                        if (piiza_removal == 'R'): 
+                            remove()                                         
+                            pass                                 
+                        elif (piiza_removal == 'P'):                                        
+                                payment()           
+                                break                                                    
+                        else: #<----- Making my Code Robust                                                                                 
+                            print("\n" * 2 + "ERROR: Invalid Input (" + str(piiza_removal) + "). Try again!")     
+                else:   #<----- Making my Code Robust                                                                                  
+                         print("\n" * 2 + "ERROR: Invalid Input (" + str(piiza_removal) + "). Try again!")
+
+            elif (order_change == 'N'):                                        
+                print("You Are Wasting My Time.")           
+                break                                                    
+            else: #<----- Making my Code Robust                                                                                 
+                print("\n" * 2 + "ERROR: Invalid Input (" + str(order_change) + "). Try again!")     
+        else:  #<----- Making my Code Robust                                                                                 
+            print("\n" * 2 + "ERROR: Invalid Input (" + str(order_change) + "). Try again!") 
+        break
+
+#Remove
+def remove():
+    print("You Have Too Many Items. \n" +
+          "You Will Remove An Item.")
+#Prints The Current Order
+    print(order_list)
+    while True:
+            try:
+                pizza_removal = int(input("Select Which Pizza You Want To Order. \n No."))
+                break
+            except ValueError:
+                print("Error: Incorrect Input, please enter a number.\n")
+    order_list.remove(order_list[pizza_removal])
+#Prints New Order
+    print(order_list)
+#Adding/Removing Another Pizza, Paying or Exiting
+    print("_" * 72 +
+        "\t(A) Add Pizza\n" + 
+        "\t(R) Remove Another Pizza" +
+        "\t(P) Pay\n" +                
+        "\t(E) Exit\n" +
+        "_" * 72)
+    while True:
+        remove_choice = str(input("Please Select Your Operation: ")).upper()    
+        if (len(remove_choice) == 1): 
+#Adding New Pizza                                          
+            if (remove_choice == 'A'):                                          
+                print("\n" * 2)                                        
+                order()
+#Removing Another Pizza                                                                                                                                                                                      
+            elif (remove_choice == 'R'):    
+                print("\n" * 2)                                      
+                remove()
+                break
+#Paying For Order
+            elif (remove_choice == 'P'): 
+                print("\n" * 2)  
+                payment()
+                break          
+#Allows To Exit Program                             
+            elif (remove_choice == 'E'):                                        
+                break                                          
+            else:                                                                                 
+                print("\n" * 2 + "ERROR: Invalid Input (" + str(remove_choice) + "). Try again!")     
+        else:                                                                                     
+            print("\n" * 2 + "ERROR: Invalid Input (" + str(remove_choice) + "). Try again!")        
+
 #Payment
 def payment():
+#Sums Each Price For Every Item Ordered
     price = sum(price_list)
     price = str(price)
+#Prints Price Total
     print("You order comes to a total of ${}.".format(price))
     time.sleep(0.4)
     if (len(delivery_list) == 1):
@@ -317,12 +427,4 @@ def payment():
         print("You order will be ready to pick up in 30mins")
     print("Have a lovely day.")
 
-
-#Pizza Limit
-def limit():
-    while True:
-        print("Help!")
-        break
-
-
-main_menu()
+main_menu() 
