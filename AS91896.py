@@ -12,6 +12,10 @@ price_list = []
 topping_list = []
 #To check if they have picked delivery or pickup
 delivery_list = []
+#List of Yes Answers
+yes = ["YES", "Y", "YEP", "YEAH", "YO", "YUP"]
+#List of No Answers
+no = ["No", "N", "NAH", "NOPE",]
 #Stores Customers Address for later use (meant to spelt wrong)
 adderess = []
 #Pizzas Available (Pizza Menu)
@@ -68,7 +72,7 @@ def main_menu():
               "\t(E) Exit\n" +
               "_" * 72)
 
-        main = str(input("Please Select Your Operation: ")).upper()    
+        main = str(input("Please Select Your Operation: ")).upper() 
         if (len(main) == 1):                                           
             if (main == 'O'):                                          
                 print("\n" * 2)                                        
@@ -201,8 +205,8 @@ def topping():
     while True:
         print("_" * 72)
         extra_toppings = str(input("Would you like extra toppings? (Y/N): ")).upper()
-        if (len(extra_toppings) == 1):      
-            if (extra_toppings == 'Y'):
+        if (len(extra_toppings) == 4):      
+            if (extra_toppings in yes):
                 print("")
                 for entry in list(toppings): 
                     print(str(toppings[entry][0]) + " $" + str(toppings[entry][1]))
@@ -216,7 +220,7 @@ def topping():
 
                 else: #<----- Making my Code Robust                                                              
                     print("\n" * 2 + "ERROR: Invalid Input (" + str(topping_type) + "). Try again!")
-            elif (extra_toppings == 'N'):
+            elif (extra_toppings in no):
                 print("\n" * 2)
                 finishing()
                 break
@@ -230,31 +234,31 @@ def finishing():
     while True:
         print("_" * 72)
         continue_ordering = str(input("Is that all today? (Y/N): ")).upper()
-        if (len(continue_ordering) == 1):      
-            if (continue_ordering == 'N'):
+        if (len(continue_ordering) == 4):      
+            if (continue_ordering in no):
                 print("\n" * 2)
                 order()
                 break
-            elif (continue_ordering == 'Y'):
+            elif (continue_ordering in yes):
                 print(order_list)
                 print(drink_list)
                 print("\n" * 2)
                 print("_" * 72)
                 check_order = str(input("Is this what you would like to order? (Y/N):")).upper()
-                if (len(check_order) == 1):      
-                    if (check_order == 'Y'):
+                if (len(check_order) == 4):      
+                    if (check_order in yes):
                         print("\n" * 2)
                         delivery()
                         break
-                    elif (check_order == 'N'):
+                    elif (check_order in no):
                         print("\n" * 2)
                         print("_" * 72)
                         restart = str(input("You Have Made A Mistake Then. Would you like to restart? (Y/N:)")).upper()
-                        if (len(restart) == 1):      
-                            if (restart == 'Y'):
+                        if (len(restart) == 4):      
+                            if (restart in yes):
                                 main_menu()
                                 break
-                            if (restart == 'N'):
+                            if (restart in no):
                                 break
                             else:#<----- Making my Code Robust
                                 print("\n" * 2 + "ERROR: Invalid Input (" + str(check_order) + "). Try again!")
@@ -304,14 +308,14 @@ def delivery():
                     "\t(N) No\n" +
                     "_" * 72)
                 delivery_details = str(input("Please Select an Operation: ")).upper()    
-                if (len(delivery_details) == 1):                                           
-                    if (delivery_details == 'Y'):       
+                if (len(delivery_details) == 4):                                           
+                    if (delivery_details in yes):       
                         price_list.append(3)
                         delivery_list.append("x")                                   
                         print("\n" * 2)                                        
                         payment()                                       
                         break                                                                                                                                                 
-                    elif (delivery_details == 'N'): 
+                    elif (delivery_details in no): 
                         print("_" * 72)                                       
                         delivery()    
                         break                                               
@@ -337,7 +341,7 @@ def limit():
                   "_" * 72)
 #Remove Or Proceed With An Order
         order_change = str(input("Please Select Your Operation: ")).upper()    
-        if (len(order_change) == 1):                                           
+        if (len(order_change) == 4):                                           
             if (order_change == 'O'):                                          
                 print("=" * 32 + " What would you like to do to you Order? " + "=" * 32 + "\n"     
                     "\t(R) Remove\n"                              
@@ -356,7 +360,7 @@ def limit():
                 else:   #<----- Making my Code Robust                                                                                  
                          print("\n" * 2 + "ERROR: Invalid Input (" + str(piiza_removal) + "). Try again!")
 
-            elif (order_change == 'N'):                                        
+            elif (order_change in no):                                        
                 print("You Are Wasting My Time.")           
                 break                                                    
             else: #<----- Making my Code Robust                                                                                 
@@ -383,7 +387,7 @@ def remove():
 #Adding/Removing Another Pizza, Paying or Exiting
     print("_" * 72 +
         "\t(A) Add Pizza\n" + 
-        "\t(R) Remove Another Pizza" +
+        "\t(R) Remove Another Pizza\n" +
         "\t(P) Pay\n" +                
         "\t(E) Exit\n" +
         "_" * 72)
@@ -394,6 +398,7 @@ def remove():
             if (remove_choice == 'A'):                                          
                 print("\n" * 2)                                        
                 order()
+                break
 #Removing Another Pizza                                                                                                                                                                                      
             elif (remove_choice == 'R'):    
                 print("\n" * 2)                                      
@@ -426,5 +431,12 @@ def payment():
     if (len(delivery_list) == 0):
         print("You order will be ready to pick up in 30mins")
     print("Have a lovely day.")
-
+    re_order()
+  
+#Order Again
+def re_order():
+    pass
+  
+    
+  
 main_menu() 
