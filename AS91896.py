@@ -15,7 +15,7 @@ delivery_list = []
 #List of Yes Answers
 yes = ["YES", "Y", "YEP", "YEAH", "YO", "YUP"]
 #List of No Answers
-no = ["No", "N", "NAH", "NOPE",]
+no = ["NO", "N", "NAH", "NOPE",]
 #Stores Customers Address for later use (meant to spelt wrong)
 adderess = []
 #Pizzas Available (Pizza Menu)
@@ -205,7 +205,7 @@ def topping():
     while True:
         print("_" * 72)
         extra_toppings = str(input("Would you like extra toppings? (Y/N): ")).upper()
-        if (len(extra_toppings) == 4):      
+        if (len(extra_toppings) <=4 or len(extra_toppings > 1)):      
             if (extra_toppings in yes):
                 print("")
                 for entry in list(toppings): 
@@ -234,7 +234,7 @@ def finishing():
     while True:
         print("_" * 72)
         continue_ordering = str(input("Is that all today? (Y/N): ")).upper()
-        if (len(continue_ordering) == 4):      
+        if (len(continue_ordering) <= 4 or len(continue_ordering) > 1):      
             if (continue_ordering in no):
                 print("\n" * 2)
                 order()
@@ -245,7 +245,7 @@ def finishing():
                 print("\n" * 2)
                 print("_" * 72)
                 check_order = str(input("Is this what you would like to order? (Y/N):")).upper()
-                if (len(check_order) == 4):      
+                if (len(check_order) <= 4 or len(check_order) > 1):      
                     if (check_order in yes):
                         print("\n" * 2)
                         delivery()
@@ -254,7 +254,7 @@ def finishing():
                         print("\n" * 2)
                         print("_" * 72)
                         restart = str(input("You Have Made A Mistake Then. Would you like to restart? (Y/N:)")).upper()
-                        if (len(restart) == 4):      
+                        if (len(restart) <= 4 or len(restart) > 1):      
                             if (restart in yes):
                                 main_menu()
                                 break
@@ -308,7 +308,7 @@ def delivery():
                     "\t(N) No\n" +
                     "_" * 72)
                 delivery_details = str(input("Please Select an Operation: ")).upper()    
-                if (len(delivery_details) == 4):                                           
+                if (len(delivery_details) <= 4 or len(delivery_details) > 1):                                           
                     if (delivery_details in yes):       
                         price_list.append(3)
                         delivery_list.append("x")                                   
@@ -430,13 +430,48 @@ def payment():
     time.sleep(0.4)
     if (len(delivery_list) == 0):
         print("You order will be ready to pick up in 30mins")
-    print("Have a lovely day.")
     re_order()
   
 #Order Again
 def re_order():
-    pass
-  
-    
-  
+    receipt_option = input("Would you like to print a reciept? (Y/N)")
+    if (len(receipt_option) <= 4 or len(receipt_option) > 1):      
+      if (receipt_option in yes):
+        receipt()        
+      elif (receipt_option in no):
+        pass
+      else: #<----- Making my Code Robust             
+        print("\n" * 2 + "ERROR: Invalid Input (" + str(receipt_option) + "). Try again!")
+    else:  #<----- Making my Code Robust   
+      print("\n" * 2 + "ERROR: Invalid Input (" + str(receipt_option) + "). Try again!")      
+while True:
+                  
+    order_again = input("Is that all today? or Would you like to make another order?")
+    print(    "\t(N) New..Order\n"    
+              "\t(E) Exit\n" +
+              "_" * 72)   
+
+    if (len(order_again) == 1): 
+#Make a New Order                                      
+            if (order_again == 'N'):                                          
+                print("\n" * 2)                                        
+                order()
+                break
+#Exit                                                                                                                                                                           
+            elif (order_again == 'E'):    
+                print("\n" * 2)                                      
+                print("Okay then. \n" + "Thank you for placing a order. \n" + "Have a lovely day.")
+                break
+   
+def receipt():
+#Sums Each Price For Every Item Ordered
+    price = sum(price_list)
+    price = str(price)
+    for entry in list(order_list):
+        print(str(order_list[entry][0]))
+    for entry in list(drink_list):
+        print(str(drink_list[entry][0]))
+    print("Total                   ${}".format(price))
+
+
 main_menu() 
