@@ -444,14 +444,13 @@ def re_order():
         print("\n" * 2 + "ERROR: Invalid Input (" + str(receipt_option) + "). Try again!")
     else:  #<----- Making my Code Robust   
       print("\n" * 2 + "ERROR: Invalid Input (" + str(receipt_option) + "). Try again!")      
-while True:
-                  
-    order_again = input("Is that all today? or Would you like to make another order?")
-    print(    "\t(N) New..Order\n"    
-              "\t(E) Exit\n" +
-              "_" * 72)   
+    while True:
+        order_again = input("Is that all today? or Would you like to make another order?")
+        print(    "\t(N) New..Order\n"    
+                  "\t(E) Exit\n" +
+                  "_" * 72)   
 
-    if (len(order_again) == 1): 
+        if (len(order_again) == 1): 
 #Make a New Order                                      
             if (order_again == 'N'):                                          
                 print("\n" * 2)                                        
