@@ -136,7 +136,7 @@ def pizza():
 #(Pizza Menu already Printed) Stores your pizza choice.
         print("_" * 72)
         pizza_type = int(input("Select Your Pizza No. "))
-        if (pizza_type <=12):
+        if (pizza_type <=12) and (pizza_type >= 1 ):
             print("\n" + "_" * 72  )
 #Value Error 
 #Only Accepts Integers So My Code Does Not Break
