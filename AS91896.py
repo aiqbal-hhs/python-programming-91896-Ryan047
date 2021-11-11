@@ -1,6 +1,6 @@
 #Pizza Ordering System
 #Imports
-# I Imported time so I can delay print statrements to clearly separate some print statments easier.
+#I Imported time so I can delay print statrements to clearly separate some print statments easier.
 import time
 #Empty List that will be filled with their Pizza
 order_list = []
