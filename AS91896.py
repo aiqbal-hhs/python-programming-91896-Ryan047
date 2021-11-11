@@ -56,6 +56,19 @@ toppings ={
 4:["4. Extra Cheese", 0.50],
 5:["5. Onions", 0.50],
 }
+#Function
+def get_int(prompt):
+    while True:
+        try:
+            answer = int(input(prompt))
+            break
+        #When a value error is triggered it will return the question again
+        except ValueError:
+            print("Please make sure you enter an integer value in your answer.\n============================================================")
+    return answer
+
+
+
 
 #Menu
 def main_menu():
@@ -135,7 +148,7 @@ def pizza():
 
 #(Pizza Menu already Printed) Stores your pizza choice.
         print("_" * 72)
-        pizza_type = int(input("Select Your Pizza No. "))
+        pizza_type = int(get_int("Select Your Pizza No. "))
         if (pizza_type <=12) and (pizza_type >= 1 ):
             print("\n" + "_" * 72  )
 #Value Error 
