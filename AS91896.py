@@ -37,20 +37,20 @@ pizzas ={
 #Drinks Available (Drink Menu)
 drinks ={
 #Dictionary: Drink Name, Price
-1:["1. Coke", 10.00],
-2:["2. Sprite", 10.00],
-3:["3. Pepsi", 10.00],
-4:["4. Fanta", 10.00],
-5:["5. Iron Brew", 10.00],
-6:["6. Lemonade", 10.00],
-7:["7. Dr Pepper", 10.00],
-8:["8. 7 up", 10.00],
-9:["9. Water", 10.00],
+1:["1. Coke", 3.00],
+2:["2. Sprite", 3.00],
+3:["3. Pepsi", 3.00],
+4:["4. Fanta", 3.00],
+5:["5. Iron Brew", 3.00],
+6:["6. Lemonade", 3.00],
+7:["7. Dr Pepper", 3.00],
+8:["8. 7 up", 3.00],
+9:["9. Water", 3.00],
 }
 #Toppings Available (Toppings Menu)
 toppings ={
 #Dictionary: Topping Name, Price
-1:["1. Pepperoni", 0,50],
+1:["1. Pepperoni", 0.50],
 2:["2. Sausage", 0.50],
 3:["3. Mushroom", 0.50],
 4:["4. Extra Cheese", 0.50],
@@ -64,11 +64,8 @@ def get_int(prompt):
             break
         #When a value error is triggered it will return the question again
         except ValueError:
-            print("Please make sure you enter an integer value in your answer.\n============================================================")
+            print("Error: Incorrect Input, please enter a number.\n")
     return answer
-
-
-
 
 #Menu
 def main_menu():
@@ -79,7 +76,7 @@ def main_menu():
             break
 
 #Name and Main Menu of the Program shows Functions of ordering or exiting.
-        print("="*28 + " Stephanie's Pizzeria " + "="*24) 
+        print("=" * 28 + " Stephanie's Pizzeria " + "="* 24) 
         print("=" * 32 + " Main Menu " + "=" * 32 + "\n"     
               "\t(O) Order\n"                              
               "\t(E) Exit\n" +
