@@ -221,7 +221,7 @@ def topping():
                 for entry in list(toppings): 
                     print(str(toppings[entry][0]) + " $" + str(toppings[entry][1]))
                 print("_" * 72)
-                topping_type = int(input("Select Your Topping No. "))
+                topping_type = int(get_int("Select Your Topping No. "))
                 if (topping_type <=5):
                     topping_list.append(toppings[topping_type][0])
                     price_list.append(toppings[topping_type][1])
